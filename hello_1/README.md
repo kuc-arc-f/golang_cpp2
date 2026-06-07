@@ -30,4 +30,6 @@ go build main.go
 
 
 ***
+### blog
 
+https://zenn.dev/knaka0209/scraps/ca4c903089372e
