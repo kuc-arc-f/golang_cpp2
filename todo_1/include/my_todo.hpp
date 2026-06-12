@@ -13,6 +13,7 @@ struct Todo {
     int id;
     std::string title;
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Todo, id, title)
 
 struct TodoData {
     int max_id;
@@ -78,14 +79,27 @@ private:
     }
 
     // TODO一覧表示
-    void list_todos(const TodoData& data) {
+    std::string list_todos(const TodoData& data) {
+        std::string ret = "";
+        std::vector<Todo> items;
         if (data.items.empty()) {
             std::cout << "TODO none\n";
-            return;
+            return ret;
         }
+        std::string buff = "";
         for (const auto& item : data.items) {
-            std::cout << "[" << item.id << "] " << item.title << "\n";
+            Todo rowData;
+            rowData.id = item.id;
+            rowData.title = item.title;
+            items.push_back(rowData);
+            std::string row = "[" + std::to_string(item.id)  + "] " + item.title + "\n" ;
+            //std::cout << "[" << item.id << "] " << item.title << "\n";
+            buff += row;
         }
+        json j1 = items;
+        std::string json_str = j1.dump();
+        ret = json_str;
+        return ret;
     }   
     // TODO削除
     void delete_todo(TodoData& data, int id) {
@@ -110,12 +124,15 @@ private:
         }  
     }
 
-    void todo_list_handler(){
+    std::string todo_list_handler(){
+        std::string ret = "";
         try{
             TodoData data = load_data(); 
-            list_todos(data);
+            ret = list_todos(data);
+            return ret;
         } catch (const std::exception& e) {
             std::cout << "Error , main" << std::endl;
+            return ret;
         }  
     }
 

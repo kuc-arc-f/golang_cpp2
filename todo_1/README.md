@@ -4,7 +4,7 @@
 
  date    : 2026/06/07
 
- update :
+ update : 2026/06/12
 
 ***
 
@@ -24,7 +24,7 @@ GoLang Window , C++ call TODO
 ***
 * cpp build
 ```
-make all
+build.bat
 ```
 
 * build
